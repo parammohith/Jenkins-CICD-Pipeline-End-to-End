@@ -2,7 +2,7 @@ pipeline {
   agent {
   docker {
     image 'maven:3.9.9-eclipse-temurin-17'
-    args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+  
   }
 }
 
@@ -24,6 +24,12 @@ pipeline {
     stage('Docker Image Build and Push') {
       environment {
         DOCKER_IMAGE = "mohith02/ultimate-cicd:${BUILD_NUMBER}"
+      }
+     agent {
+        docker {
+          image 'docker:26.1.0-cli'
+          args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
       }
       steps {
         script {
